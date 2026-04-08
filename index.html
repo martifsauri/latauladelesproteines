@@ -97,6 +97,18 @@ tr:hover td.name { background: var(--bg); }
 .col-div { border-left: 1px solid var(--border); }
 .empty-row td { text-align: center; padding: 2.5rem; color: var(--text-muted); font-size: 13px; }
 
+.dropdown-panel { position: absolute; top: calc(100% + 6px); left: 0; min-width: 340px; max-width: 420px; max-height: 420px; overflow-y: auto; background: var(--surface); border: 1px solid var(--border-strong); border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.10), 0 2px 8px rgba(0,0,0,0.05); z-index: 50; padding: 8px 0; display: none; }
+.dropdown-panel.open { display: block; }
+.dropdown-actions { display: flex; gap: 6px; padding: 4px 12px 8px; border-bottom: 1px solid var(--border); margin-bottom: 4px; }
+.dropdown-actions button { font-family: inherit; font-size: 11px; font-weight: 500; padding: 4px 10px; border-radius: 6px; border: 1px solid var(--border); background: transparent; color: var(--text-muted); cursor: pointer; transition: all 0.15s; }
+.dropdown-actions button:hover { border-color: var(--border-strong); color: var(--text); }
+.dropdown-section { font-size: 9.5px; font-weight: 500; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; padding: 8px 12px 4px; }
+.dropdown-item { display: flex; align-items: center; gap: 9px; padding: 5px 12px; cursor: pointer; font-size: 12.5px; font-family: 'DM Mono', monospace; letter-spacing: -0.2px; transition: background 0.1s; }
+.dropdown-item:hover { background: var(--bg); }
+.dropdown-item input[type=checkbox] { width: 14px; height: 14px; accent-color: var(--text); cursor: pointer; flex-shrink: 0; margin: 0; }
+.dropdown-item.excluded { color: var(--text-faint); text-decoration: line-through; }
+.exclude-badge { display: inline-block; margin-left: 8px; padding: 1px 7px; border-radius: 999px; background: var(--text); color: #fff; font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500; vertical-align: middle; }
+
 .range-filter { display: flex; flex-direction: column; gap: 6px; }
 .range-filter-row { display: flex; align-items: center; gap: 10px; }
 .dual-range { position: relative; width: 150px; height: 20px; }
@@ -135,6 +147,13 @@ footer b { color: var(--text-muted); }
     <div class="search-wrap">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
       <input type="search" id="searchInput" autocomplete="off">
+      <div class="dropdown-panel" id="itemPicker" role="dialog" aria-label="Item picker">
+        <div class="dropdown-actions">
+          <button type="button" id="pickAll"></button>
+          <button type="button" id="pickNone"></button>
+        </div>
+        <div id="pickerList"></div>
+      </div>
     </div>
     <div class="divider"></div>
     <div class="filter-group">
@@ -271,6 +290,8 @@ const I18N = {
     allSections: "Totes",
     priceRange: "Preu (€/kg)",
     scoreRange: "Puntuació",
+    pickAll: "Selecciona-ho tot",
+    pickNone: "Buida selecció",
     showing: "Mostrant",
     of: "de",
     proteins: "proteïnes",
@@ -374,6 +395,8 @@ const I18N = {
     allSections: "All",
     priceRange: "Price (€/kg)",
     scoreRange: "Score",
+    pickAll: "Select all",
+    pickNone: "Clear all",
     showing: "Showing",
     of: "of",
     proteins: "proteins",
@@ -493,6 +516,7 @@ const PRICE_LO = 0, PRICE_HI = 70;
 const SCORE_LO = 1, SCORE_HI = 5;
 let priceMin = PRICE_LO, priceMax = PRICE_HI;
 let scoreMin = SCORE_LO, scoreMax = SCORE_HI;
+let excludedIds = new Set(JSON.parse(localStorage.getItem('excludedIds') || '[]'));
 let lang = (localStorage.getItem('lang')) || (navigator.language && navigator.language.toLowerCase().startsWith('en') ? 'en' : 'ca');
 
 function t() { return I18N[lang]; }
@@ -506,6 +530,7 @@ function tagBadges(arr) { return arr.map(t=>`<span class="badge b${t}">${t}</spa
 function getFiltered() {
   const items = t().items;
   return ITEMS.filter(r => {
+    if (excludedIds.has(r.id)) return false;
     if (!activeSections.has(r.sectionId)) return false;
     if (activeTag !== 'all' && !r.tags.includes(activeTag)) return false;
     if (r.score < scoreMin || r.score > scoreMax) return false;
@@ -688,12 +713,45 @@ function renderStaticLabels() {
   document.getElementById('countTotal').textContent = ITEMS.length;
 }
 
+function renderItemPicker() {
+  const T = t();
+  document.getElementById('pickAll').textContent = T.pickAll;
+  document.getElementById('pickNone').textContent = T.pickNone;
+  const list = document.getElementById('pickerList');
+  let html = '';
+  SECTION_IDS.forEach(sid => {
+    const sectionItems = ITEMS.filter(i => i.sectionId === sid);
+    if (sectionItems.length === 0) return;
+    html += `<div class="dropdown-section">${T.sectionNames[sid] || sid}</div>`;
+    sectionItems.forEach(r => {
+      const name = (T.items[r.id] && T.items[r.id].name) || r.id;
+      const excluded = excludedIds.has(r.id);
+      html += `<label class="dropdown-item${excluded ? ' excluded' : ''}">
+        <input type="checkbox" data-id="${r.id}" ${excluded ? '' : 'checked'}>
+        <span>${name}</span>
+      </label>`;
+    });
+  });
+  list.innerHTML = html;
+  list.querySelectorAll('input[type=checkbox]').forEach(cb => {
+    cb.addEventListener('change', () => {
+      const id = cb.dataset.id;
+      if (cb.checked) excludedIds.delete(id);
+      else excludedIds.add(id);
+      localStorage.setItem('excludedIds', JSON.stringify([...excludedIds]));
+      cb.closest('.dropdown-item').classList.toggle('excluded', !cb.checked);
+      renderTable();
+    });
+  });
+}
+
 function renderAll() {
   renderStaticLabels();
   renderHead();
   renderSectionChips();
   renderLegend();
   renderFooter();
+  renderItemPicker();
   renderTable();
 }
 
@@ -761,6 +819,32 @@ bindDualRange('priceMinInput', 'priceMaxInput', PRICE_LO, PRICE_HI,
   v => { priceMin = v; }, v => { priceMax = v; });
 bindDualRange('scoreMinInput', 'scoreMaxInput', SCORE_LO, SCORE_HI,
   v => { scoreMin = v; }, v => { scoreMax = v; });
+
+/* item picker dropdown */
+const picker = document.getElementById('itemPicker');
+const searchInput = document.getElementById('searchInput');
+function openPicker() { picker.classList.add('open'); }
+function closePicker() { picker.classList.remove('open'); }
+searchInput.addEventListener('focus', openPicker);
+searchInput.addEventListener('click', openPicker);
+document.addEventListener('click', e => {
+  if (!picker.classList.contains('open')) return;
+  if (e.target.closest('#itemPicker') || e.target === searchInput) return;
+  closePicker();
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closePicker(); });
+document.getElementById('pickAll').addEventListener('click', () => {
+  excludedIds.clear();
+  localStorage.setItem('excludedIds', '[]');
+  renderItemPicker();
+  renderTable();
+});
+document.getElementById('pickNone').addEventListener('click', () => {
+  excludedIds = new Set(ITEMS.map(i => i.id));
+  localStorage.setItem('excludedIds', JSON.stringify([...excludedIds]));
+  renderItemPicker();
+  renderTable();
+});
 
 /* init */
 document.querySelectorAll('.lang-toggle button').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));

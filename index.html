@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Qualitat Nutricional de Proteïnes</title>
+<meta name="description" content="Taula comparativa de la qualitat nutricional de proteïnes — mercat espanyol 2025. Disponible en català i anglès.">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #F7F5F0;
+  --surface: #FFFFFF;
+  --border: #E2DDD6;
+  --border-strong: #C8C2B8;
+  --text: #1C1A17;
+  --text-muted: #7A7570;
+  --text-faint: #AEA9A2;
+  --accent: #2D5016;
+  --s5-bg: #EAF3DE; --s5-fg: #2D5016;
+  --s4-bg: #E6F1FB; --s4-fg: #185FA5;
+  --s3-bg: #FEF5E4; --s3-fg: #7A4F0B;
+  --s2-bg: #FAECE7; --s2-fg: #8B3318;
+  --s1-bg: #FCEBEB; --s1-fg: #8B2020;
+  --bL-bg: #E1F5EE; --bL-fg: #0A5C45;
+  --bM-bg: #EBF3FD; --bM-fg: #1450A3;
+  --bT-bg: #FDF3DC; --bT-fg: #7A4800;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.5; min-height: 100vh; }
+.page { max-width: 1340px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+
+header { margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; flex-wrap: wrap; }
+.header-text h1 { font-size: 22px; font-weight: 500; letter-spacing: -0.3px; margin-bottom: 4px; }
+.subtitle { font-size: 13px; color: var(--text-muted); }
+
+.lang-toggle { display: inline-flex; border: 1px solid var(--border); border-radius: 999px; overflow: hidden; background: var(--surface); flex-shrink: 0; }
+.lang-toggle button { background: transparent; border: 0; font-family: inherit; font-size: 11px; font-weight: 500; padding: 6px 14px; color: var(--text-muted); cursor: pointer; letter-spacing: 0.05em; transition: all 0.15s; }
+.lang-toggle button.active { background: var(--text); color: #fff; }
+.lang-toggle button:not(.active):hover { color: var(--text); }
+
+.controls { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem 1.5rem; margin-bottom: 0.75rem; display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-start; }
+.search-wrap { position: relative; flex: 1; min-width: 200px; }
+.search-wrap svg { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: var(--text-faint); pointer-events: none; }
+input[type=search] { width: 100%; padding: 8px 12px 8px 34px; border: 1px solid var(--border); border-radius: 8px; font-family: inherit; font-size: 13px; background: var(--bg); color: var(--text); outline: none; transition: border-color 0.15s; }
+input[type=search]:focus { border-color: var(--accent); }
+input[type=search]::placeholder { color: var(--text-faint); }
+
+.filter-group { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.filter-label { font-size: 11px; font-weight: 500; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; white-space: nowrap; }
+.btn-filter { padding: 5px 12px; border-radius: 20px; border: 1px solid var(--border); background: transparent; font-family: inherit; font-size: 12px; font-weight: 500; color: var(--text-muted); cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+.btn-filter:hover { border-color: var(--border-strong); color: var(--text); }
+.btn-filter.active-all { background: var(--text); color: #fff; border-color: var(--text); }
+.btn-filter.active-L { background: var(--bL-bg); color: var(--bL-fg); border-color: var(--bL-fg); }
+.btn-filter.active-M { background: var(--bM-bg); color: var(--bM-fg); border-color: var(--bM-fg); }
+.btn-filter.active-T { background: var(--bT-bg); color: var(--bT-fg); border-color: var(--bT-fg); }
+
+.divider { width: 1px; height: 28px; background: var(--border); align-self: center; }
+
+.section-filter-wrap { display: flex; flex-direction: column; gap: 6px; }
+.section-chips { display: flex; flex-wrap: wrap; gap: 5px; max-width: 680px; }
+.chip { padding: 4px 10px; border-radius: 20px; border: 1px solid var(--border); background: transparent; font-family: inherit; font-size: 11px; font-weight: 500; color: var(--text-muted); cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+.chip:hover { border-color: var(--border-strong); color: var(--text); }
+.chip.active { background: var(--text); color: #fff; border-color: var(--text); }
+
+.table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid var(--border); background: var(--surface); }
+table { width: 100%; border-collapse: collapse; min-width: 1080px; }
+thead { position: sticky; top: 0; z-index: 2; }
+thead tr { background: var(--bg); border-bottom: 1px solid var(--border-strong); }
+th { padding: 10px 9px; font-size: 10.5px; font-weight: 500; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap; cursor: pointer; user-select: none; transition: color 0.15s; text-align: center; }
+th.left { text-align: left; }
+th:hover { color: var(--text); }
+th.sorted { color: var(--accent); }
+th .sort-icon { display: inline-block; margin-left: 3px; font-size: 9px; opacity: 0.5; }
+th.sorted .sort-icon { opacity: 1; }
+
+td { padding: 7px 9px; border-bottom: 1px solid var(--border); vertical-align: middle; text-align: center; transition: background 0.1s; }
+td.name { text-align: left; font-weight: 500; font-size: 12.5px; white-space: nowrap; font-family: 'DM Mono', monospace; letter-spacing: -0.2px; }
+td.name .name-note { display: block; font-size: 10px; font-weight: 400; color: var(--text-faint); margin-top: 1px; font-family: 'DM Sans', sans-serif; letter-spacing: 0; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: var(--bg); }
+.section-row td { background: #F0EDE7; font-size: 10px; font-weight: 500; color: var(--text-muted); padding: 4px 9px; letter-spacing: 0.1em; text-transform: uppercase; text-align: left; border-bottom: 1px solid var(--border); }
+
+.pill { display: inline-block; padding: 2px 8px; border-radius: 5px; font-size: 12px; font-weight: 500; font-family: 'DM Mono', monospace; }
+.s5 { background: var(--s5-bg); color: var(--s5-fg); }
+.s4 { background: var(--s4-bg); color: var(--s4-fg); }
+.s3 { background: var(--s3-bg); color: var(--s3-fg); }
+.s2 { background: var(--s2-bg); color: var(--s2-fg); }
+.s1 { background: var(--s1-bg); color: var(--s1-fg); }
+.score-cell { font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500; }
+.badge { display: inline-block; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 500; margin: 1px; }
+.bL { background: var(--bL-bg); color: var(--bL-fg); }
+.bM { background: var(--bM-bg); color: var(--bM-fg); }
+.bT { background: var(--bT-bg); color: var(--bT-fg); }
+.price { font-family: 'DM Mono', monospace; font-size: 11.5px; color: var(--text-muted); white-space: nowrap; }
+.col-div { border-left: 1px solid var(--border); }
+.empty-row td { text-align: center; padding: 2.5rem; color: var(--text-muted); font-size: 13px; }
+
+.stats-bar { display: flex; gap: 1.5rem; margin-bottom: 0.75rem; font-size: 12px; color: var(--text-muted); }
+.stat-num { font-family: 'DM Mono', monospace; font-weight: 500; color: var(--text); }
+
+.legend { display: flex; gap: 1.25rem; flex-wrap: wrap; margin-top: 1.25rem; font-size: 11px; color: var(--text-muted); align-items: center; }
+
+footer { margin-top: 1.5rem; font-size: 11px; color: var(--text-faint); line-height: 1.9; border-top: 1px solid var(--border); padding-top: 1rem; }
+footer b { color: var(--text-muted); }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div class="header-text">
+      <h1 id="pageTitle"></h1>
+      <p class="subtitle" id="pageSubtitle"></p>
+    </div>
+    <div class="lang-toggle" role="group" aria-label="Language">
+      <button data-lang="ca" class="active">CA</button>
+      <button data-lang="en">EN</button>
+    </div>
+  </header>
+
+  <div class="controls">
+    <div class="search-wrap">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="search" id="searchInput" autocomplete="off">
+    </div>
+    <div class="divider"></div>
+    <div class="filter-group">
+      <span class="filter-label" id="lblProfile"></span>
+      <button class="btn-filter active-all" data-tag="all" id="tagAll"></button>
+      <button class="btn-filter" data-tag="L">L · Light</button>
+      <button class="btn-filter" data-tag="M">M · Mass</button>
+      <button class="btn-filter" data-tag="T">T · Top</button>
+    </div>
+    <div class="divider"></div>
+    <div class="section-filter-wrap">
+      <span class="filter-label" id="lblSections"></span>
+      <div class="section-chips" id="sectionChips"></div>
+    </div>
+  </div>
+
+  <div class="stats-bar">
+    <span><span id="lblShowing"></span> <span class="stat-num" id="countShown">0</span> <span id="lblOf"></span> <span class="stat-num" id="countTotal">0</span> <span id="lblProteins"></span></span>
+  </div>
+
+  <div class="table-wrap">
+  <table id="mainTable">
+    <thead>
+      <tr id="theadRow"></tr>
+    </thead>
+    <tbody id="tbody"></tbody>
+  </table>
+  </div>
+
+  <div class="legend" id="legend"></div>
+
+  <footer id="footer"></footer>
+</div>
+
+<script>
+/* ============================================================
+   DATA — language-neutral. Names/notes/sections live in I18N.
+   ============================================================ */
+const RAW = [
+  { sectionId: "offal" },
+  { id:"beef_liver",       prot:5,ferro:5,vit:5,lip:3,omega:2,bio:5,col:1,cont:5,dens:5, priceMin:4,priceMax:8,  price:"4–8",   tags:["M","T"] },
+  { id:"chicken_liver",    prot:5,ferro:5,vit:5,lip:3,omega:2,bio:5,col:1,cont:5,dens:5, priceMin:2,priceMax:5,  price:"2–5",   tags:["M","T"] },
+  { id:"pork_liver",       prot:5,ferro:4,vit:4,lip:3,omega:2,bio:5,col:1,cont:5,dens:4, priceMin:2,priceMax:5,  price:"2–5",   tags:["M","T"] },
+
+  { sectionId: "beef" },
+  { id:"ribeye",           prot:5,ferro:5,vit:4,lip:4,omega:2,bio:5,col:2,cont:5,dens:5, priceMin:18,priceMax:35, price:"18–35", tags:["M","T"] },
+  { id:"ossobuco",         prot:4,ferro:4,vit:3,lip:3,omega:2,bio:4,col:5,cont:5,dens:4, priceMin:8,priceMax:14, price:"8–14",  tags:["M"] },
+
+  { sectionId: "lamb" },
+  { id:"lamb_chops",       prot:4,ferro:4,vit:4,lip:5,omega:3,bio:5,col:2,cont:5,dens:5, priceMin:12,priceMax:22,price:"12–22", tags:["T"] },
+
+  { sectionId: "pork" },
+  { id:"acorn_iberian",    prot:5,ferro:3,vit:3,lip:5,omega:2,bio:4,col:2,cont:5,dens:4, priceMin:18,priceMax:30,price:"18–30", tags:["M","T"] },
+  { id:"secreto_iberian",  prot:4,ferro:3,vit:3,lip:5,omega:2,bio:4,col:2,cont:5,dens:4, priceMin:14,priceMax:25,price:"14–25", tags:["T"] },
+  { id:"duroc_loin",       prot:5,ferro:3,vit:3,lip:3,omega:2,bio:4,col:2,cont:5,dens:3, priceMin:8,priceMax:14, price:"8–14",  tags:["M"] },
+  { id:"industrial_pork",  prot:4,ferro:2,vit:2,lip:2,omega:1,bio:3,col:2,cont:4,dens:2, priceMin:4,priceMax:8,  price:"4–8",   tags:[] },
+
+  { sectionId: "rabbit" },
+  { id:"rabbit",           prot:5,ferro:3,vit:3,lip:3,omega:2,bio:4,col:3,cont:5,dens:4, priceMin:6,priceMax:10, price:"6–10",  tags:["L","M"] },
+
+  { sectionId: "chicken" },
+  { id:"freerange_thigh",  prot:4,ferro:3,vit:3,lip:4,omega:2,bio:4,col:3,cont:5,dens:4, priceMin:5,priceMax:9,  price:"5–9",   tags:["M"] },
+  { id:"freerange_breast", prot:5,ferro:2,vit:2,lip:3,omega:2,bio:4,col:1,cont:5,dens:3, priceMin:6,priceMax:10, price:"6–10",  tags:["L","M"] },
+  { id:"industrial_thigh", prot:4,ferro:2,vit:2,lip:3,omega:1,bio:3,col:2,cont:4,dens:3, priceMin:3,priceMax:5,  price:"3–5",   tags:[] },
+  { id:"industrial_breast",prot:5,ferro:2,vit:2,lip:2,omega:1,bio:3,col:1,cont:4,dens:2, priceMin:4,priceMax:7,  price:"4–7",   tags:["L"] },
+
+  { sectionId: "turkey" },
+  { id:"turkey_breast",    prot:5,ferro:2,vit:2,lip:2,omega:1,bio:3,col:1,cont:5,dens:2, priceMin:5,priceMax:9,  price:"5–9",   tags:["L"] },
+
+  { sectionId: "eggs" },
+  { id:"organic_egg",      prot:4,ferro:3,vit:5,lip:4,omega:3,bio:5,col:1,cont:5,dens:5, priceMin:4,priceMax:7,  price:"4–7",   priceUnit:"dozen", tags:["L","M","T"] },
+  { id:"conventional_egg", prot:4,ferro:3,vit:3,lip:3,omega:1,bio:4,col:1,cont:4,dens:3, priceMin:1,priceMax:3,  price:"1–3",   priceUnit:"dozen", tags:["L","M"] },
+
+  { sectionId: "shellfish" },
+  { id:"mussels",          prot:4,ferro:4,vit:4,lip:3,omega:4,bio:4,col:1,cont:4,dens:4, priceMin:3,priceMax:6,  price:"3–6",   tags:["L","M","T"] },
+  { id:"clams",            prot:4,ferro:5,vit:4,lip:2,omega:3,bio:5,col:1,cont:4,dens:5, priceMin:6,priceMax:14, price:"6–14",  tags:["L","M","T"] },
+  { id:"prawns",           prot:5,ferro:3,vit:3,lip:2,omega:2,bio:5,col:1,cont:4,dens:4, priceMin:10,priceMax:25,price:"10–25", tags:["L","M"] },
+
+  { sectionId: "oilyfish" },
+  { id:"bluefin_belly",    prot:5,ferro:4,vit:4,lip:4,omega:5,bio:5,col:1,cont:2,dens:5, priceMin:30,priceMax:70,price:"30–70", tags:["M","T"] },
+  { id:"bluefin_loin",     prot:5,ferro:4,vit:4,lip:3,omega:4,bio:5,col:1,cont:2,dens:4, priceMin:20,priceMax:40,price:"20–40", tags:["M"] },
+  { id:"wild_salmon",      prot:5,ferro:3,vit:5,lip:4,omega:5,bio:5,col:1,cont:3,dens:5, priceMin:15,priceMax:25,price:"15–25", tags:["T"] },
+  { id:"farmed_salmon",    prot:4,ferro:3,vit:4,lip:4,omega:4,bio:4,col:1,cont:2,dens:4, priceMin:8,priceMax:14, price:"8–14",  tags:[] },
+  { id:"sardine_mackerel", prot:4,ferro:3,vit:4,lip:4,omega:5,bio:5,col:1,cont:4,dens:4, priceMin:2,priceMax:5,  price:"2–5",   tags:["L","T"] },
+
+  { sectionId: "whitefish" },
+  { id:"hake",             prot:4,ferro:2,vit:3,lip:2,omega:2,bio:4,col:1,cont:5,dens:3, priceMin:6,priceMax:14, price:"6–14",  tags:["L"] },
+  { id:"seabream_seabass", prot:4,ferro:2,vit:3,lip:2,omega:2,bio:4,col:1,cont:4,dens:3, priceMin:8,priceMax:16, price:"8–16",  tags:["L"] },
+
+  { sectionId: "plant" },
+  { id:"chickpeas",        prot:2,ferro:2,vit:2,lip:2,omega:1,bio:2,col:1,cont:5,dens:2, priceMin:1,priceMax:3,  price:"1–3",   tags:["L"] },
+  { id:"lentils",          prot:3,ferro:2,vit:2,lip:2,omega:1,bio:2,col:1,cont:5,dens:2, priceMin:1,priceMax:3,  price:"1–3",   tags:["L"] },
+  { id:"tofu_tempeh",      prot:3,ferro:2,vit:2,lip:3,omega:1,bio:3,col:1,cont:4,dens:3, priceMin:3,priceMax:7,  price:"3–7",   tags:["L","M"] },
+  { id:"quinoa",           prot:3,ferro:2,vit:2,lip:2,omega:1,bio:2,col:1,cont:5,dens:2, priceMin:4,priceMax:8,  price:"4–8",   tags:["L"] },
+];
+
+/* ============================================================
+   I18N
+   ============================================================ */
+const I18N = {
+  ca: {
+    htmlLang: "ca",
+    docTitle: "Qualitat Nutricional de Proteïnes",
+    title: "Qualitat nutricional de proteïnes",
+    subtitle: "Valoració per a consum humà general · Mercat espanyol 2025",
+    searchPlaceholder: "Cerca per nom…",
+    profile: "Perfil",
+    all: "Tots",
+    sections: "Seccions",
+    allSections: "Totes",
+    showing: "Mostrant",
+    of: "de",
+    proteins: "proteïnes",
+    noResults: "Cap resultat per als filtres seleccionats.",
+    perDozen: "/dotz.",
+    cols: {
+      name: "Proteïna / tall",
+      prot: "Proteïna",
+      ferro: "Ferro & zinc",
+      vit: "Vitamines",
+      lip: "Perfil lipídic",
+      omega: "Omega-3",
+      bio: "Biodisponibilitat",
+      col: "Col·lagen",
+      cont: "Contaminants",
+      dens: "Densitat nutricional",
+      price: "Preu €/kg",
+      score: "Puntuació",
+      profile: "Perfil",
+    },
+    legend: {
+      rating: "Valoració:",
+      s5: "Excel·lent",
+      s4: "Molt bona",
+      s3: "Correcta",
+      s2: "Limitada",
+      s1: "Baixa",
+      L: "Light · pèrdua de pes",
+      M: "Mass · massa muscular",
+      T: "Top · millor global",
+    },
+    sectionNames: {
+      offal: "Vísceres",
+      beef: "Vedella i bou",
+      lamb: "Xai",
+      pork: "Porc",
+      rabbit: "Conill",
+      chicken: "Pollastre",
+      turkey: "Gall dindi (pavo)",
+      eggs: "Ous",
+      shellfish: "Marisc",
+      oilyfish: "Peix blau",
+      whitefish: "Peix blanc",
+      plant: "Proteïna vegetal",
+    },
+    items: {
+      beef_liver:        { name:"Fetge de vedella", note:"" },
+      chicken_liver:     { name:"Fetge de pollastre / conill", note:"perfils molt similars — intercanviables" },
+      pork_liver:        { name:"Fetge de porc", note:"" },
+      ribeye:            { name:"Entrecot / chuletón", note:"" },
+      ossobuco:          { name:"Ossobuco / jarrete", note:"" },
+      lamb_chops:        { name:"Costelles de xai (pasto)", note:"" },
+      acorn_iberian:     { name:"Llom ibèric de gla", note:"" },
+      secreto_iberian:   { name:"Secreto / presa ibèrica", note:"" },
+      duroc_loin:        { name:"Llom Duroc", note:"" },
+      industrial_pork:   { name:"Porc estàndard industrial", note:"" },
+      rabbit:            { name:"Conill (qualsevol tall)", note:"" },
+      freerange_thigh:   { name:"Pollastre corral — cuixa", note:"" },
+      freerange_breast:  { name:"Pollastre corral — pit", note:"" },
+      industrial_thigh:  { name:"Pollastre industrial — cuixa", note:"" },
+      industrial_breast: { name:"Pollastre industrial — pit", note:"" },
+      turkey_breast:     { name:"Pit de pavo", note:"" },
+      organic_egg:       { name:"Ou ecològic (marcatge 0)", note:"alimentació certificada, accés a pastures" },
+      conventional_egg:  { name:"Ou convencional (marcatge 3)", note:"bateria, alimentació industrial" },
+      mussels:           { name:"Musclos (cuits)", note:"" },
+      clams:             { name:"Cloïsses / berberetxos", note:"font de ferro hemo excepcional" },
+      prawns:            { name:"Gambes / llagostins", note:"" },
+      bluefin_belly:     { name:"Tonyina vermella — ventrescu", note:"" },
+      bluefin_loin:      { name:"Tonyina vermella — llom", note:"" },
+      wild_salmon:       { name:"Salmó salvatge", note:"" },
+      farmed_salmon:     { name:"Salmó aquicultura", note:"" },
+      sardine_mackerel:  { name:"Sardina / verat frescos", note:"" },
+      hake:              { name:"Lluç (merluça)", note:"" },
+      seabream_seabass:  { name:"Dorada / llobarro", note:"" },
+      chickpeas:         { name:"Cigrons (cuits)", note:"" },
+      lentils:           { name:"Llenties (cuites)", note:"" },
+      tofu_tempeh:       { name:"Tofu / Tempeh (soja)", note:"" },
+      quinoa:            { name:"Quinoa (cuita)", note:"" },
+    },
+    footer: [
+      ["Puntuació final:", " mitjana ponderada — densitat nutricional ×2, proteïna ×1.5, biodisponibilitat ×1.5, resta ×1. El preu no afecta la puntuació."],
+      ["Perfil lipídic:", " valora la qualitat de la grassa (ràtio omega-6/omega-3, presència d'oleic), no la quantitat. Un 2 en pit de pollastre significa poca grassa i majoritàriament omega-6 sense compensació."],
+      ["Fetge de pollastre / conill:", " perfils nutricionals molt similars. El de conill és una excel·lent alternativa quan es té accés (conill sencer), amb sabor lleugerament més suau que el de pollastre."],
+      ["Vísceres en general:", " el límit recomanat és 1 vegada/setmana per al fetge, especialment el de vedella, per evitar toxicitat per acumulació de vitamina A (retinol)."],
+      ["Marisc:", " les cloïsses destaquen com a font de ferro hemo superior a moltes carns. Les gambes tenen proteïna molt alta però quasi zero grassa, la qual cosa pot limitar l'absorció de nutrients liposolubles si es consumeixen soles."],
+      ["Proteïna vegetal:", " les puntuacions reflecteixen criteris d'aprofitament real pel cos humà. La biodisponibilitat inferior de llegums, soja i quinoa (factors antinutritius, absorció parcial del ferro no-hemo, perfil d'aminoàcids incomplet) es reflecteix directament a les columnes existents, sense biaix afegit."],
+      ["Ous marcatge 0:", " alimentació ecològica certificada i accés a pastures. La diferència amb el marcatge 1 és moderada (~20–30% més omega-3); el salt significant és 0–1 vs 2–3."],
+      ["Preus:", " orientatius mercat espanyol 2025. Variables per origen i canal de compra."],
+    ],
+  },
+
+  en: {
+    htmlLang: "en",
+    docTitle: "Protein Nutritional Quality",
+    title: "Protein nutritional quality",
+    subtitle: "Rating for general human consumption · Spanish market 2025",
+    searchPlaceholder: "Search by name…",
+    profile: "Profile",
+    all: "All",
+    sections: "Sections",
+    allSections: "All",
+    showing: "Showing",
+    of: "of",
+    proteins: "proteins",
+    noResults: "No results for the selected filters.",
+    perDozen: "/dozen",
+    cols: {
+      name: "Protein / cut",
+      prot: "Protein",
+      ferro: "Iron & zinc",
+      vit: "Vitamins",
+      lip: "Lipid profile",
+      omega: "Omega-3",
+      bio: "Bioavailability",
+      col: "Collagen",
+      cont: "Contaminants",
+      dens: "Nutrient density",
+      price: "Price €/kg",
+      score: "Score",
+      profile: "Profile",
+    },
+    legend: {
+      rating: "Rating:",
+      s5: "Excellent",
+      s4: "Very good",
+      s3: "Adequate",
+      s2: "Limited",
+      s1: "Low",
+      L: "Light · weight loss",
+      M: "Mass · muscle mass",
+      T: "Top · best overall",
+    },
+    sectionNames: {
+      offal: "Offal",
+      beef: "Beef",
+      lamb: "Lamb",
+      pork: "Pork",
+      rabbit: "Rabbit",
+      chicken: "Chicken",
+      turkey: "Turkey",
+      eggs: "Eggs",
+      shellfish: "Shellfish",
+      oilyfish: "Oily fish",
+      whitefish: "White fish",
+      plant: "Plant protein",
+    },
+    items: {
+      beef_liver:        { name:"Beef liver", note:"" },
+      chicken_liver:     { name:"Chicken / rabbit liver", note:"very similar profiles — interchangeable" },
+      pork_liver:        { name:"Pork liver", note:"" },
+      ribeye:            { name:"Ribeye / tomahawk", note:"" },
+      ossobuco:          { name:"Osso buco / shank", note:"" },
+      lamb_chops:        { name:"Lamb chops (pasture)", note:"" },
+      acorn_iberian:     { name:"Acorn-fed Iberian loin", note:"" },
+      secreto_iberian:   { name:"Iberian secreto / presa", note:"" },
+      duroc_loin:        { name:"Duroc pork loin", note:"" },
+      industrial_pork:   { name:"Industrial standard pork", note:"" },
+      rabbit:            { name:"Rabbit (any cut)", note:"" },
+      freerange_thigh:   { name:"Free-range chicken — thigh", note:"" },
+      freerange_breast:  { name:"Free-range chicken — breast", note:"" },
+      industrial_thigh:  { name:"Industrial chicken — thigh", note:"" },
+      industrial_breast: { name:"Industrial chicken — breast", note:"" },
+      turkey_breast:     { name:"Turkey breast", note:"" },
+      organic_egg:       { name:"Organic egg (code 0)", note:"certified feed, pasture access" },
+      conventional_egg:  { name:"Conventional egg (code 3)", note:"battery-caged, industrial feed" },
+      mussels:           { name:"Mussels (cooked)", note:"" },
+      clams:             { name:"Clams / cockles", note:"exceptional source of heme iron" },
+      prawns:            { name:"Prawns / shrimp", note:"" },
+      bluefin_belly:     { name:"Bluefin tuna — belly", note:"" },
+      bluefin_loin:      { name:"Bluefin tuna — loin", note:"" },
+      wild_salmon:       { name:"Wild salmon", note:"" },
+      farmed_salmon:     { name:"Farmed salmon", note:"" },
+      sardine_mackerel:  { name:"Fresh sardine / mackerel", note:"" },
+      hake:              { name:"Hake", note:"" },
+      seabream_seabass:  { name:"Sea bream / sea bass", note:"" },
+      chickpeas:         { name:"Chickpeas (cooked)", note:"" },
+      lentils:           { name:"Lentils (cooked)", note:"" },
+      tofu_tempeh:       { name:"Tofu / Tempeh (soy)", note:"" },
+      quinoa:            { name:"Quinoa (cooked)", note:"" },
+    },
+    footer: [
+      ["Final score:", " weighted average — nutrient density ×2, protein ×1.5, bioavailability ×1.5, rest ×1. Price does not affect the score."],
+      ["Lipid profile:", " rates the quality of the fat (omega-6/omega-3 ratio, presence of oleic acid), not the quantity. A 2 on chicken breast means low fat and mostly omega-6 without compensation."],
+      ["Chicken / rabbit liver:", " very similar nutritional profiles. Rabbit liver is an excellent alternative when available (whole rabbit), with a slightly milder flavor than chicken liver."],
+      ["Offal in general:", " the recommended limit is 1 time/week for liver, especially beef liver, to avoid toxicity from vitamin A (retinol) accumulation."],
+      ["Shellfish:", " clams stand out as a source of heme iron superior to many meats. Prawns have very high protein but almost zero fat, which can limit absorption of fat-soluble nutrients if eaten alone."],
+      ["Plant protein:", " scores reflect real bioutilization criteria for the human body. The lower bioavailability of legumes, soy and quinoa (antinutrients, partial absorption of non-heme iron, incomplete amino acid profile) is reflected directly in the existing columns, with no added bias."],
+      ["Code-0 eggs:", " certified organic feed and pasture access. The difference with code 1 is moderate (~20–30% more omega-3); the significant jump is 0–1 vs 2–3."],
+      ["Prices:", " indicative, Spanish market 2025. Varies by origin and purchase channel."],
+    ],
+  },
+};
+
+/* ============================================================
+   APP
+   ============================================================ */
+const W = {prot:1.5,ferro:1,vit:1,lip:1,omega:1,bio:1.5,col:1,cont:1,dens:2};
+const WMAX = 5*Object.values(W).reduce((a,b)=>a+b,0);
+function calcScore(r) {
+  const t = Object.keys(W).reduce((s,k) => s + r[k]*W[k], 0);
+  return Math.round((t/WMAX)*50)/10;
+}
+
+const ITEMS = [];
+let currentSectionId = "";
+RAW.forEach(r => {
+  if (r.sectionId) { currentSectionId = r.sectionId; return; }
+  ITEMS.push({...r, sectionId: currentSectionId, score: calcScore(r)});
+});
+
+const SECTION_IDS = [...new Set(ITEMS.map(i => i.sectionId))];
+let activeSections = new Set(SECTION_IDS);
+let activeTag = 'all';
+let searchQ = '';
+let sortCol = 'score';
+let sortDir = -1;
+let lang = (localStorage.getItem('lang')) || (navigator.language && navigator.language.toLowerCase().startsWith('en') ? 'en' : 'ca');
+
+function t() { return I18N[lang]; }
+function pill(n) { return `<span class="pill s${n}">${n}</span>`; }
+function scorePill(n) {
+  const cls = n>=4.5?'s5':n>=3.8?'s4':n>=3.0?'s3':n>=2.2?'s2':'s1';
+  return `<span class="pill ${cls} score-cell">${n.toFixed(1)}</span>`;
+}
+function tagBadges(arr) { return arr.map(t=>`<span class="badge b${t}">${t}</span>`).join(''); }
+
+function getFiltered() {
+  const items = t().items;
+  return ITEMS.filter(r => {
+    if (!activeSections.has(r.sectionId)) return false;
+    if (activeTag !== 'all' && !r.tags.includes(activeTag)) return false;
+    if (searchQ) {
+      const name = (items[r.id] && items[r.id].name) || r.id;
+      if (!name.toLowerCase().includes(searchQ.toLowerCase())) return false;
+    }
+    return true;
+  });
+}
+
+function getSorted(items) {
+  if (!sortCol) return items;
+  const i18nItems = t().items;
+  return [...items].sort((a,b) => {
+    let av, bv;
+    if (sortCol === 'name') {
+      av = (i18nItems[a.id] && i18nItems[a.id].name) || a.id;
+      bv = (i18nItems[b.id] && i18nItems[b.id].name) || b.id;
+      return av.localeCompare(bv, lang) * sortDir;
+    }
+    if (sortCol === 'price') { av = a.priceMin; bv = b.priceMin; }
+    else { av = a[sortCol]; bv = b[sortCol]; }
+    return (av - bv) * sortDir;
+  });
+}
+
+function rowHtml(r) {
+  const i18nItem = t().items[r.id] || {name: r.id, note: ""};
+  const notePart = i18nItem.note ? `<span class="name-note">${i18nItem.note}</span>` : '';
+  const priceUnit = r.priceUnit === 'dozen' ? ` ${t().perDozen}` : '';
+  return `<tr>
+    <td class="name">${i18nItem.name}${notePart}</td>
+    <td>${pill(r.prot)}</td>
+    <td>${pill(r.ferro)}</td>
+    <td>${pill(r.vit)}</td>
+    <td>${pill(r.lip)}</td>
+    <td>${pill(r.omega)}</td>
+    <td>${pill(r.bio)}</td>
+    <td>${pill(r.col)}</td>
+    <td>${pill(r.cont)}</td>
+    <td>${pill(r.dens)}</td>
+    <td class="price col-div">${r.price} €${priceUnit}</td>
+    <td class="col-div">${scorePill(r.score)}</td>
+    <td>${tagBadges(r.tags)}</td>
+  </tr>`;
+}
+
+function renderHead() {
+  const c = t().cols;
+  document.getElementById('theadRow').innerHTML = `
+    <th class="left" data-col="name" style="min-width:210px;">${c.name} <span class="sort-icon">↕</span></th>
+    <th data-col="prot">${c.prot} <span class="sort-icon">↕</span></th>
+    <th data-col="ferro">${c.ferro} <span class="sort-icon">↕</span></th>
+    <th data-col="vit">${c.vit} <span class="sort-icon">↕</span></th>
+    <th data-col="lip">${c.lip} <span class="sort-icon">↕</span></th>
+    <th data-col="omega">${c.omega} <span class="sort-icon">↕</span></th>
+    <th data-col="bio">${c.bio} <span class="sort-icon">↕</span></th>
+    <th data-col="col">${c.col} <span class="sort-icon">↕</span></th>
+    <th data-col="cont">${c.cont} <span class="sort-icon">↕</span></th>
+    <th data-col="dens">${c.dens} <span class="sort-icon">↕</span></th>
+    <th class="col-div" data-col="price" style="min-width:80px;">${c.price} <span class="sort-icon">↕</span></th>
+    <th class="col-div" data-col="score" style="min-width:80px;">${c.score} <span class="sort-icon">↕</span></th>
+    <th>${c.profile}</th>
+  `;
+  document.querySelectorAll('th[data-col]').forEach(th => {
+    th.addEventListener('click', () => {
+      const col = th.dataset.col;
+      if (sortCol === col) { sortDir *= -1; }
+      else { sortCol = col; sortDir = col === 'name' ? 1 : -1; }
+      renderAll();
+    });
+    if (th.dataset.col === sortCol) {
+      th.classList.add('sorted');
+      const icon = th.querySelector('.sort-icon');
+      if (icon) icon.textContent = sortDir === 1 ? '↑' : '↓';
+    }
+  });
+}
+
+function renderSectionChips() {
+  const container = document.getElementById('sectionChips');
+  container.innerHTML = '';
+  const allChip = document.createElement('button');
+  allChip.className = 'chip' + (activeSections.size === SECTION_IDS.length ? ' active' : '');
+  allChip.textContent = t().allSections;
+  allChip.addEventListener('click', () => {
+    activeSections = new Set(SECTION_IDS);
+    renderSectionChips();
+    renderTable();
+  });
+  container.appendChild(allChip);
+
+  SECTION_IDS.forEach(sid => {
+    const chip = document.createElement('button');
+    chip.className = 'chip' + (activeSections.has(sid) ? ' active' : '');
+    chip.textContent = t().sectionNames[sid] || sid;
+    chip.dataset.section = sid;
+    chip.addEventListener('click', () => {
+      if (activeSections.has(sid)) activeSections.delete(sid);
+      else activeSections.add(sid);
+      renderSectionChips();
+      renderTable();
+    });
+    container.appendChild(chip);
+  });
+}
+
+function renderTable() {
+  const filtered = getFiltered();
+  const sorted = getSorted(filtered);
+  document.getElementById('countShown').textContent = sorted.length;
+
+  const tbody = document.getElementById('tbody');
+  if (sorted.length === 0) {
+    tbody.innerHTML = `<tr class="empty-row"><td colspan="13">${t().noResults}</td></tr>`;
+    return;
+  }
+
+  const isDefault = sortCol === 'score' && sortDir === -1 && !searchQ && activeTag === 'all';
+  let html = '';
+
+  if (isDefault) {
+    const groups = {};
+    sorted.forEach(r => {
+      if (!groups[r.sectionId]) groups[r.sectionId] = [];
+      groups[r.sectionId].push(r);
+    });
+    SECTION_IDS.filter(s => groups[s]).forEach(sid => {
+      html += `<tr class="section-row"><td colspan="13">${t().sectionNames[sid] || sid}</td></tr>`;
+      groups[sid].forEach(r => { html += rowHtml(r); });
+    });
+  } else {
+    sorted.forEach(r => { html += rowHtml(r); });
+  }
+
+  tbody.innerHTML = html;
+}
+
+function renderLegend() {
+  const L = t().legend;
+  document.getElementById('legend').innerHTML = `
+    <span style="font-size:11px;font-weight:500;color:var(--text);">${L.rating}</span>
+    <span><span class="pill s5" style="font-size:10px;padding:1px 5px;">5</span> ${L.s5}</span>
+    <span><span class="pill s4" style="font-size:10px;padding:1px 5px;">4</span> ${L.s4}</span>
+    <span><span class="pill s3" style="font-size:10px;padding:1px 5px;">3</span> ${L.s3}</span>
+    <span><span class="pill s2" style="font-size:10px;padding:1px 5px;">2</span> ${L.s2}</span>
+    <span><span class="pill s1" style="font-size:10px;padding:1px 5px;">1</span> ${L.s1}</span>
+    &nbsp;·&nbsp;
+    <span><span class="badge bL">L</span> ${L.L}</span>
+    <span><span class="badge bM">M</span> ${L.M}</span>
+    <span><span class="badge bT">T</span> ${L.T}</span>
+  `;
+}
+
+function renderFooter() {
+  document.getElementById('footer').innerHTML = t().footer
+    .map(([b, rest]) => `<b>${b}</b>${rest}`)
+    .join('<br>');
+}
+
+function renderStaticLabels() {
+  const T = t();
+  document.documentElement.lang = T.htmlLang;
+  document.title = T.docTitle;
+  document.getElementById('pageTitle').textContent = T.title;
+  document.getElementById('pageSubtitle').textContent = T.subtitle;
+  document.getElementById('searchInput').placeholder = T.searchPlaceholder;
+  document.getElementById('lblProfile').textContent = T.profile;
+  document.getElementById('tagAll').textContent = T.all;
+  document.getElementById('lblSections').textContent = T.sections;
+  document.getElementById('lblShowing').textContent = T.showing;
+  document.getElementById('lblOf').textContent = T.of;
+  document.getElementById('lblProteins').textContent = T.proteins;
+  document.getElementById('countTotal').textContent = ITEMS.length;
+}
+
+function renderAll() {
+  renderStaticLabels();
+  renderHead();
+  renderSectionChips();
+  renderLegend();
+  renderFooter();
+  renderTable();
+}
+
+/* events */
+document.getElementById('searchInput').addEventListener('input', e => {
+  searchQ = e.target.value;
+  renderTable();
+});
+
+document.querySelectorAll('.btn-filter').forEach(btn => {
+  btn.addEventListener('click', () => {
+    activeTag = btn.dataset.tag;
+    document.querySelectorAll('.btn-filter').forEach(b => {
+      b.className = 'btn-filter';
+      if (b.dataset.tag === activeTag) b.classList.add('active-' + activeTag);
+    });
+    renderTable();
+  });
+});
+
+document.querySelectorAll('.lang-toggle button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    lang = btn.dataset.lang;
+    localStorage.setItem('lang', lang);
+    document.querySelectorAll('.lang-toggle button').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+    renderAll();
+  });
+});
+
+/* init */
+document.querySelectorAll('.lang-toggle button').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+renderAll();
+</script>
+</body>
+</html>
